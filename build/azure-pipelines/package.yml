@@ -1,0 +1,76 @@
+# go-mssqltools release artifacts
+
+trigger: 
+  tags:
+    include:
+      - v0.*
+
+pr: none
+
+variables:
+  CLI_VERSION: '0.0.1'
+  CLI_VERSION_REVISION: '1'
+  CLI_COMMAND_EXCLUSION_LIST: 'go-mssqltools'
+  GO_MSSQLTOOLS_PACKAGE_VERSION: '$(CLI_VERSION)'
+  Build.SourcesCliDirectory: '$(Build.SourcesDirectory)/'
+  skip.upload: "true"
+
+stages:
+  - stage: Compile
+    displayName: Compile sqlcmd on platforms
+    jobs:
+    - job: Compile_sqlcmd
+      strategy:
+        matrix:
+          linux:
+            imageName: 'ubuntu-latest'
+      pool:
+        vmImage: $(imageName)
+      steps:
+        - template: build-common.yml
+
+  - stage: DockerDistribution
+    jobs:   
+    - job: DockerDistribution
+      displayName: 'Build Docker image distribution'
+      condition: succeeded()
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: 'current'
+          targetPath: '$(Pipeline.Workspace)'
+      - task: Bash@3
+        displayName: 'Build Docker image distribution'
+        inputs:
+          targetType: 'inline'
+          script: release/linux/docker/pipeline.sh
+          workingDirectory: $(Build.SourcesCliDirectory)
+          failOnStderr: false
+        env:
+          BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish docker build artifacts'
+        inputs:
+          pathtoPublish: $(Build.ArtifactStagingDirectory)
+          artifactName: docker
+    - job: TestDockerDistribution
+      displayName:  'Test Docker image distribution'
+      dependsOn: DockerDistribution
+      condition: succeeded()
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+      - task: DownloadPipelineArtifact@1
+        displayName: 'Download docker artifact'
+        inputs:
+          TargetPath: $(Build.ArtifactStagingDirectory)/docker
+          artifactName: docker
+      - task: CmdLine@2
+        displayName: 'Test Docker image distribution'
+        inputs:
+          script: release/linux/docker/pipeline-test.sh
+          workingDirectory: $(Build.SourcesCliDirectory)
+        env:
+          BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
