@@ -10,7 +10,7 @@
 # Instructions to be invoked under the build CI pipeline in AzureDevOps.
 #
 # Build and save the `go-mssqltools` image into the bundle:
-# `docker-go-mssqltools-${CLI_VERSION}.tar`
+# `docker-go-mssqltools-${PACKAGE_VERSION}.tar`
 #
 # Usage:
 #
@@ -21,18 +21,17 @@
 DIST_DIR=${BUILD_STAGINGDIRECTORY:=${REPO_ROOT_DIR}/output/docker}
 IMAGE_NAME=microsoft/go-mssqltools${BUILD_BUILDNUMBER:=''}
 
-CLI_VERSION=${CLI_VERSION:=0.0.1}
+PACKAGE_VERSION=${PACKAGE_VERSION:=0.0.1}
 
 echo "=========================================================="
-echo "CLI_VERSION: ${CLI_VERSION}"
+echo "PACKAGE_VERSION: ${PACKAGE_VERSION}"
 echo "IMAGE_NAME: ${IMAGE_NAME}"
 echo "Output location: ${DIST_DIR}"
 echo "=========================================================="
 
 docker build --no-cache \
              --build-arg BUILD_DATE="`date -u +"%Y-%m-%dT%H:%M:%SZ"`" \
-             --build-arg CLI_VERSION=${CLI_VERSION} \
-             --build-arg GO_MSSQLTOOLS_PIPELINE_RUN_NUMBER=${GO_MSSQLTOOLS_PIPELINE_RUN_NUMBER} \
+             --build-arg PACKAGE_VERSION=${PACKAGE_VERSION} \
              --tag ${IMAGE_NAME}:latest \
              ${REPO_ROOT_DIR}
 
@@ -41,7 +40,7 @@ echo "Done - docker build"
 echo "=========================================================="
 
 mkdir -p ${DIST_DIR} || exit 1
-docker save -o "${DIST_DIR}/docker-go-mssqltools-${CLI_VERSION}.tar" ${IMAGE_NAME}:latest
+docker save -o "${DIST_DIR}/docker-go-mssqltools-${PACKAGE_VERSION}.tar" ${IMAGE_NAME}:latest
 
 echo "=========================================================="
 echo "Done - docker save"

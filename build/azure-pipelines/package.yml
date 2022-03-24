@@ -8,10 +8,7 @@ trigger:
 pr: none
 
 variables:
-  CLI_VERSION: '0.0.1'
-  CLI_VERSION_REVISION: '1'
-  CLI_COMMAND_EXCLUSION_LIST: 'go-mssqltools'
-  GO_MSSQLTOOLS_PACKAGE_VERSION: '$(CLI_VERSION)'
+  VERSION: '0.0.1'
   Build.SourcesCliDirectory: '$(Build.SourcesDirectory)/'
   skip.upload: "true"
 
