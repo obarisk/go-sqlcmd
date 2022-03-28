@@ -7,7 +7,7 @@
 
 # Description:
 #
-# Build a rpm `sqlcmd` package. This script is intended to be ran in a
+# Build a rpm `sqlcmd` package. This script is intended to be run in a
 # container with the respective distro/image laid down.
 #
 # Usage:

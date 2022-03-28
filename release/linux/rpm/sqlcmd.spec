@@ -1,4 +1,4 @@
-# RPM spec file for go-mssqltools
+# RPM spec file for sqlcmd
 # Definition of macros used - https://fedoraproject.org/wiki/Packaging:RPMMacros?rd=Packaging/RPMMacros
 
 # .el7.centos -> .el7
