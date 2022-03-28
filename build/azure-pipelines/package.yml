@@ -1,0 +1,112 @@
+# go-mssqltools release artifacts
+
+trigger: 
+  tags:
+    include:
+      - v0.*
+
+pr: none
+
+variables:
+  VERSION: '0.0.1'
+  Build.SourcesCliDirectory: '$(Build.SourcesDirectory)/'
+  skip.upload: "true"
+
+stages:
+  - stage: Compile
+    displayName: Compile sqlcmd on platforms
+    jobs:
+    - job: Compile_sqlcmd
+      strategy:
+        matrix:
+          linux:
+            imageName: 'ubuntu-latest'
+      pool:
+        vmImage: $(imageName)
+      steps:
+        - template: build-common.yml
+
+ - stage: CreatePackages
+    displayName: Create packages to publish
+    jobs:
+    - job: Sign_and_pack
+      pool:
+        vmImage: 'windows-latest'
+      steps:
+      - task: PowerShell@2
+        displayName: Set last tag to variable
+        inputs:
+          targetType: 'inline'
+          script: |
+            $VERSION_TAG = git describe --tags (git rev-list --tags --max-count=1)
+            Write-Host("##vso[task.setvariable variable=VERSION_TAG]$VERSION_TAG")
+            Write-Host($VERSION_TAG)
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: 'current'
+          targetPath: '$(Pipeline.Workspace)'
+  
+      - task: ArchiveFiles@2
+        displayName: Tar Linux binary
+        inputs:
+          rootFolderOrFile: '$(Pipeline.Workspace)\SqlcmdLinux'
+          includeRootFolder: false
+          archiveType: 'tar'
+          tarCompression: 'bz2'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/sqlcmd-$(VERSION_TAG)-linux-x64.tar.bz2'
+
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish release archives'
+        inputs:
+          targetPath: $(Build.ArtifactStagingDirectory)
+          artifactName: SqlcmdRelease
+
+  - stage: RpmDistribution
+    jobs:
+    - job: RpmDistribution
+      displayName: 'Build RPM Distribution'
+      condition: succeeded()
+      pool:
+        vmImage: 'ubuntu-20.04'
+      steps:
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: 'current'
+          targetPath: '$(Pipeline.Workspace)'
+      - task: CmdLine@2
+        displayName: 'Build RPM distribution'
+        inputs:
+          script: release/linux/rpm/pipeline.sh
+          workingDirectory: $(Build.SourcesCliDirectory)
+        env:
+          BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
+    # Temporarily disable code signing to unblock SQLCMD CLI build pipeline
+    #  - task: EsrpCodeSigning@1
+    #    inputs:
+    #      ConnectedServiceName: 'Code Signing'
+    #      FolderPath: $(Build.ArtifactStagingDirectory)
+    #      Pattern: '*.rpm'
+    #      signConfigType: 'inlineSignParams'
+    #      inlineOperation: |
+    #        [
+    #          {
+    #            "KeyCode" : "CP-450779-Pgp",
+    #            "OperationCode" : "LinuxSign",
+    #            "Parameters" : {},
+    #            "ToolName" : "sign",
+    #            "ToolVersion" : "1.0"
+    #          }
+    #        ]
+    #      SessionTimeout: '600'
+    #      MaxConcurrency: '50'
+    #      MaxRetryAttempts: '20'
+      #- task: CodeSignValidationInjected@1
+      #  inputs:
+      #    Targets: '.rpm'
+      - task: PublishPipelineArtifact@0
+        displayName: 'Publish Artifact: rpm'
+        inputs:
+          TargetPath: $(Build.ArtifactStagingDirectory)
+          ArtifactName: rpm
+ 
