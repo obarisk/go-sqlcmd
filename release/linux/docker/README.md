@@ -1,6 +1,6 @@
 # Docker Release
 
-## Building Docker from in CI/CD pipeline
+## Building Docker in CI/CD pipeline
 
 Execute the following command from the root directory of this repository:
 

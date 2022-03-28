@@ -22,8 +22,8 @@ set -exv
 PACKAGE_VERSION=${PACKAGE_VERSION:=0.0.1}
 
 BUILD_ARTIFACTSTAGINGDIRECTORY=${BUILD_ARTIFACTSTAGINGDIRECTORY:=${REPO_ROOT_DIR}/output}/docker
-IMAGE_NAME=microsoft/go-mssqltools${BUILD_BUILDNUMBER:=''}:latest
-TAR_FILE=${BUILD_ARTIFACTSTAGINGDIRECTORY}/docker-go-mssqltools-${PACKAGE_VERSION}.tar
+IMAGE_NAME=microsoft/sqlcmd${BUILD_BUILDNUMBER:=''}:latest
+TAR_FILE=${BUILD_ARTIFACTSTAGINGDIRECTORY}/docker-sqlcmd-${PACKAGE_VERSION}.tar
 
 echo "=========================================================="
 echo "PACKAGE_VERSION: ${PACKAGE_VERSION}"

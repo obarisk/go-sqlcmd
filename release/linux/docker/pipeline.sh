@@ -9,8 +9,8 @@
 #
 # Instructions to be invoked under the build CI pipeline in AzureDevOps.
 #
-# Build and save the `go-mssqltools` image into the bundle:
-# `docker-go-mssqltools-${PACKAGE_VERSION}.tar`
+# Build and save the `sqlcmd` image into the bundle:
+# `docker-sqlcmd-${PACKAGE_VERSION}.tar`
 #
 # Usage:
 #
@@ -19,7 +19,7 @@
 
 : "${REPO_ROOT_DIR:=`cd $(dirname $0); cd ../../../; pwd`}"
 DIST_DIR=${BUILD_STAGINGDIRECTORY:=${REPO_ROOT_DIR}/output/docker}
-IMAGE_NAME=microsoft/go-mssqltools${BUILD_BUILDNUMBER:=''}
+IMAGE_NAME=microsoft/sqlcmd${BUILD_BUILDNUMBER:=''}
 
 PACKAGE_VERSION=${PACKAGE_VERSION:=0.0.1}
 
@@ -40,7 +40,7 @@ echo "Done - docker build"
 echo "=========================================================="
 
 mkdir -p ${DIST_DIR} || exit 1
-docker save -o "${DIST_DIR}/docker-go-mssqltools-${PACKAGE_VERSION}.tar" ${IMAGE_NAME}:latest
+docker save -o "${DIST_DIR}/docker-sqlcmd-${PACKAGE_VERSION}.tar" ${IMAGE_NAME}:latest
 
 echo "=========================================================="
 echo "Done - docker save"
