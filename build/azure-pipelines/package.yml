@@ -1,0 +1,90 @@
+# sqlcmd release artifacts
+
+trigger: 
+  tags:
+    include:
+      - v0.*
+
+pr: none
+
+variables:
+  CLI_VERSION: '0.0.1'
+  CLI_VERSION_REVISION: '1'
+  HOMEBREW_FORMULA_ARTIFACT: 'homebrew-formula'
+  Build.SourcesCliDirectory: '$(Build.SourcesDirectory)/'
+  skip.upload: "true"
+
+stages:
+  - stage: Compile
+    displayName: Compile sqlcmd
+    jobs:
+    - job: Compile_sqlcmd
+      strategy:
+        matrix:
+          mac:
+            imageName: 'macOS-latest'
+      pool:
+        vmImage: $(imageName)
+      steps:
+        - template: build-common.yml
+
+  - stage: CreatePackages
+    displayName: Create packages to publish
+    jobs:
+    - job: Sign_and_pack
+      pool:
+        vmImage: 'windows-latest'
+      steps:
+      - task: PowerShell@2
+        displayName: Set last tag to variable
+        inputs:
+          targetType: 'inline'
+          script: |
+            $VERSION_TAG = git describe --tags (git rev-list --tags --max-count=1)
+            Write-Host("##vso[task.setvariable variable=VERSION_TAG]$VERSION_TAG")
+            Write-Host($VERSION_TAG)
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: 'current'
+          targetPath: '$(Pipeline.Workspace)'
+      
+      - task: ArchiveFiles@2
+        displayName: Tar Darwin binary
+        inputs:
+          rootFolderOrFile: '$(Pipeline.Workspace)\SqlcmdDarwin'
+          includeRootFolder: false
+          archiveType: 'tar'
+          tarCompression: 'bz2'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/sqlcmd-$(VERSION_TAG)-darwin-x64.tar.bz2'
+
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish release archives'
+        inputs:
+          targetPath: $(Build.ArtifactStagingDirectory)
+          artifactName: SqlcmdRelease
+
+  - stage: HomebrewDistribution
+    jobs:
+    - job: HomebrewFormulaDistribution
+      displayName: 'Build Homebrew formula distribution'
+      condition: succeeded()
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+      - task: CmdLine@2
+        displayName: 'Build Homebrew formula distribution'
+        inputs:
+          script: release/mac/homebrew/pipeline-formula.sh
+          workingDirectory: $(Build.SourcesCliDirectory)
+      - task: CopyFiles@2
+        displayName: 'Copy homebrew artifacts to: $(Build.ArtifactStagingDirectory)/homebrew'
+        inputs:
+          sourceFolder: '$(Build.SourcesCliDirectory)/output/homebrew'
+          contents: '?(*.rb|*.gz|*.sh)'
+          TargetFolder: $(Build.ArtifactStagingDirectory)
+      - task: PublishPipelineArtifact@0
+        displayName: 'Publish Homebrew artifacts'
+        inputs:
+          TargetPath: $(Build.ArtifactStagingDirectory)
+          ArtifactName: $(HOMEBREW_FORMULA_ARTIFACT)
