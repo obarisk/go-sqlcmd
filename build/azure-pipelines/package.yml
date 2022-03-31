@@ -44,6 +44,7 @@ stages:
 
       - task: DownloadPipelineArtifact@2
         inputs:
+          artifactName: SqlcmdRelease
           buildType: 'current'
           targetPath: '$(Pipeline.Workspace)'
   
