@@ -106,9 +106,9 @@ stages:
       #- task: CodeSignValidationInjected@1
       #  inputs:
       #    Targets: '.rpm'
-      - task: PublishPipelineArtifact@0
-        displayName: 'Publish Artifact: rpm'
-        inputs:
-          targetPath: $(Build.ArtifactStagingDirectory)
-          artifactName: rpm
+#      - task: PublishPipelineArtifact@0
+#        displayName: 'Publish Artifact: rpm'
+#        inputs:
+#          targetPath: $(Build.ArtifactStagingDirectory)
+#          artifactName: rpm
  
