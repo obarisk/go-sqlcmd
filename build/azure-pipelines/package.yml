@@ -26,7 +26,7 @@ stages:
       steps:
         - template: build-common.yml
 
- - stage: CreatePackages
+  - stage: CreatePackages
     displayName: Create packages to publish
     jobs:
     - job: Sign_and_pack
