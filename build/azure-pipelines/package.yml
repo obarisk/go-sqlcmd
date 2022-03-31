@@ -51,7 +51,7 @@ stages:
 
       - task: DownloadPipelineArtifact@2
         inputs:
-          artifactName: SqlcmdRelease
+          artifactName: LinuxAmd64
           buildType: 'current'
           targetPath: '$(Pipeline.Workspace)'
   
@@ -68,7 +68,7 @@ stages:
         displayName: 'Publish release archives'
         inputs:
           targetPath: $(Build.ArtifactStagingDirectory)
-          artifactName: SqlcmdRelease
+          artifactName: LinuxAmd64
 
   - stage: RpmDistribution
     jobs:
@@ -80,7 +80,7 @@ stages:
       steps:
       - task: DownloadPipelineArtifact@2
         inputs:
-          artifactName: SqlcmdRelease
+          artifactName: LinuxAmd64
           buildType: 'current'
           targetPath: '$(Pipeline.Workspace)'
       - task: CmdLine@2
