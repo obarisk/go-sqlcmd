@@ -11,3 +11,19 @@ variables:
   VERSION: '0.0.1'
   Build.SourcesCliDirectory: '$(Build.SourcesDirectory)/'
   skip.upload: "true"
+
+stages:
+  - stage: Compile
+    displayName: Compile sqlcmd on platforms
+    jobs:
+    - job: Compile_sqlcmd
+      strategy:
+        matrix:
+          linux:
+            imageName: 'ubuntu-latest'
+      pool:
+        vmImage: $(imageName)
+      steps:
+        - template: build-common.yml
+
+ 
