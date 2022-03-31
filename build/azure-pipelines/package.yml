@@ -109,6 +109,6 @@ stages:
       - task: PublishPipelineArtifact@0
         displayName: 'Publish Artifact: rpm'
         inputs:
-          TargetPath: $(Build.ArtifactStagingDirectory)
-          ArtifactName: rpm
+          targetPath: $(Build.ArtifactStagingDirectory)
+          artifactName: rpm
  
