@@ -56,3 +56,59 @@ stages:
           archiveType: 'tar'
           tarCompression: 'bz2'
           archiveFile: '$(Build.ArtifactStagingDirectory)/sqlcmd-$(VERSION_TAG)-linux-x64.tar.bz2'
+
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish release archives'
+        inputs:
+          targetPath: $(Build.ArtifactStagingDirectory)
+          artifactName: SqlcmdRelease
+
+  - stage: RpmDistribution
+    jobs:
+    - job: RpmDistribution
+      displayName: 'Build RPM Distribution'
+      condition: succeeded()
+      pool:
+        vmImage: 'ubuntu-20.04'
+      steps:
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifactName: SqlcmdRelease
+          buildType: 'current'
+          targetPath: '$(Pipeline.Workspace)'
+      - task: CmdLine@2
+        displayName: 'Build RPM distribution'
+        inputs:
+          script: release/linux/rpm/pipeline.sh
+          workingDirectory: $(Build.SourcesCliDirectory)
+        env:
+          BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
+    # Temporarily disable code signing to unblock SQLCMD CLI build pipeline
+    #  - task: EsrpCodeSigning@1
+    #    inputs:
+    #      ConnectedServiceName: 'Code Signing'
+    #      FolderPath: $(Build.ArtifactStagingDirectory)
+    #      Pattern: '*.rpm'
+    #      signConfigType: 'inlineSignParams'
+    #      inlineOperation: |
+    #        [
+    #          {
+    #            "KeyCode" : "CP-450779-Pgp",
+    #            "OperationCode" : "LinuxSign",
+    #            "Parameters" : {},
+    #            "ToolName" : "sign",
+    #            "ToolVersion" : "1.0"
+    #          }
+    #        ]
+    #      SessionTimeout: '600'
+    #      MaxConcurrency: '50'
+    #      MaxRetryAttempts: '20'
+      #- task: CodeSignValidationInjected@1
+      #  inputs:
+      #    Targets: '.rpm'
+      - task: PublishPipelineArtifact@0
+        displayName: 'Publish Artifact: rpm'
+        inputs:
+          targetPath: $(Build.ArtifactStagingDirectory)
+          artifactName: rpm
+ 
