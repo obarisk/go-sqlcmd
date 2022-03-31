@@ -58,7 +58,7 @@ stages:
       - task: ArchiveFiles@2
         displayName: Tar Linux binary
         inputs:
-          rootFolderOrFile: '$(Pipeline.Workspace)\SqlcmdLinux'
+          rootFolderOrFile: '$(Pipeline.Workspace)\SqlcmdLinuxAmd64'
           includeRootFolder: false
           archiveType: 'tar'
           tarCompression: 'bz2'
