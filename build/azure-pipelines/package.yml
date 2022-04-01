@@ -91,11 +91,11 @@ stages:
         env:
           BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
           BUILD_OUTPUT: $(Pipeline.Workspace)
-      #- task: PublishBuildArtifacts@1
-      #  displayName: 'Publish docker build artifacts'
-      #  inputs:
-      #    pathtoPublish: $(Build.ArtifactStagingDirectory)
-      #    artifactName: docker
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish docker build artifacts'
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'docker'
 
   - stage: TestDockerDistribution
     jobs:
