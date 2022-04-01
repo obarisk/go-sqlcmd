@@ -101,7 +101,6 @@ stages:
     jobs:
     - job: TestDockerDistribution
       displayName:  'Test Docker image distribution'
-      dependsOn: DockerDistribution
       pool:
         vmImage: 'ubuntu-latest'
       steps:
