@@ -33,8 +33,8 @@ CLI_VERSION=${CLI_VERSION:=0.0.1}
 CLI_VERSION_REVISION=${CLI_VERSION_REVISION:=1}
 BUILD_ARTIFACTSTAGINGDIRECTORY=${BUILD_ARTIFACTSTAGINGDIRECTORY:=${REPO_ROOT_DIR}/output}/debian
 
-DISTROS=( buster stretch jessie bionic xenial focal )
-BASE_IMAGES=( debian:buster debian:stretch debian:jessie ubuntu:bionic ubuntu:xenial ubuntu:focal )
+DISTROS=( buster ) #stretch jessie bionic xenial focal )
+BASE_IMAGES=( debian:buster ) # debian:stretch debian:jessie ubuntu:bionic ubuntu:xenial ubuntu:focal )
 
 echo "=========================================================="
 echo "CLI_VERSION: ${CLI_VERSION}"
