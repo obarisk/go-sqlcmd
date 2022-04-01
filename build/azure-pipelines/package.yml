@@ -102,7 +102,6 @@ stages:
     - job: TestDockerDistribution
       displayName:  'Test Docker image distribution'
       dependsOn: DockerDistribution
-      condition: succeeded()
       pool:
         vmImage: 'ubuntu-latest'
       steps:
