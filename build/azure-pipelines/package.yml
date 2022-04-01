@@ -110,9 +110,9 @@ stages:
           SessionTimeout: '600'
           MaxConcurrency: '50'
           MaxRetryAttempts: '20'
-      - task: CodeSign@1
-        inputs:
-          Targets: '.rpm'
+      #- task: CodeSign@1
+      #  inputs:
+      #    Targets: '.rpm'
       - task: PublishPipelineArtifact@0
         displayName: 'Publish Artifact: rpm'
         inputs:
