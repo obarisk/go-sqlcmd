@@ -119,3 +119,23 @@ stages:
           targetPath: $(Build.ArtifactStagingDirectory)
           artifactName: rpm
  
+   - stage: TestLinuxRpmDistributions
+    jobs:
+    - job: TestLinuxRpmDistributions
+      displayName: 'Test rpm packages: yum|zypper'
+
+      pool:
+        vmImage: 'ubuntu-20.04'
+      steps:
+      - task: DownloadPipelineArtifact@1
+        displayName: 'Download rpm artifact'
+        inputs:
+          TargetPath: $(Build.ArtifactStagingDirectory)/rpm
+          artifactName: rpm
+      - task: CmdLine@2
+        displayName: 'Test Linux distributions via yum|zypper'
+        inputs:
+          script: release/linux/rpm/pipeline-test.sh
+          workingDirectory: $(Build.SourcesCliDirectory)
+        env:
+          BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
