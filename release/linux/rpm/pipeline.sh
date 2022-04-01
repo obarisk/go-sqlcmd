@@ -21,8 +21,8 @@ set -exv
 
 : "${REPO_ROOT_DIR:=`cd $(dirname $0); cd ../../../; pwd`}"
 
-cp ${BUILD_OUTPUT}/SqlcmdLinuxAmd64 ${REPO_ROOT_DIR}/sqlcmd
- 
+cp ${BUILD_OUTPUT}/SqlcmdLinuxAmd64/sqlcmd ${REPO_ROOT_DIR}/sqlcmd
+
 DIST_DIR=${BUILD_STAGINGDIRECTORY:=${REPO_ROOT_DIR}/output/rpm}
 DISTRO_BASE_IMAGE=( centos:centos7 fedora:29 )
 
