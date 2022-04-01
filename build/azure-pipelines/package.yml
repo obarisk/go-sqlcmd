@@ -88,6 +88,7 @@ stages:
           script: release/linux/rpm/pipeline.sh
           workingDirectory: $(Build.SourcesCliDirectory)
         env:
+          BUILD_OUTPUT: $(Pipeline.Workspace)
           BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
     # Temporarily disable code signing to unblock SQLCMD CLI build pipeline
     #  - task: EsrpCodeSigning@1
