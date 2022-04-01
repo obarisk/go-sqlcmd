@@ -63,11 +63,11 @@ stages:
           tarCompression: 'bz2'
           archiveFile: '$(Build.ArtifactStagingDirectory)/sqlcmd-$(VERSION_TAG)-linux-x64.tar.bz2'
 
-      - task: PublishPipelineArtifact@1
-        displayName: 'Publish release archives'
-        inputs:
-          targetPath: $(Build.ArtifactStagingDirectory)
-          artifactName: SqlcmdLinuxAmd64
+      #- task: PublishPipelineArtifact@1
+      #  displayName: 'Publish release archives'
+      #  inputs:
+      #    targetPath: $(Build.ArtifactStagingDirectory)
+      #    artifactName: SqlcmdLinuxAmd64
 
   - stage: RpmDistribution
     jobs:
