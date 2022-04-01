@@ -83,6 +83,7 @@ stages:
         env:
           DISTRO: buster
           DISTRO_BASE_IMAGE: debian
+          BUILD_OUTPUT: $(Pipeline.Workspace)
           BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
     # Temporarily disable code signing to unblock SQLCMD CLI build pipeline
     #  - task: EsrpCodeSigning@1
