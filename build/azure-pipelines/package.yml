@@ -119,7 +119,7 @@ stages:
           targetPath: $(Build.ArtifactStagingDirectory)
           artifactName: rpm
  
-   - stage: TestLinuxRpmDistributions
+    - stage: TestLinuxRpmDistributions
     jobs:
     - job: TestLinuxRpmDistributions
       displayName: 'Test rpm packages: yum|zypper'
