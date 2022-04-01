@@ -98,6 +98,8 @@ stages:
           artifactName: docker
 
   - stage: TestDockerDistribution
+    displayName: Test Docker Distribution
+    jobs:
     - job: TestDockerDistribution
       displayName:  'Test Docker image distribution'
       dependsOn: DockerDistribution
