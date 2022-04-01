@@ -130,7 +130,7 @@ stages:
       - task: CmdLine@2
         displayName: 'Test Linux distributions via apt'
         inputs:
-          script: release/debian/pipeline-test.sh
+          script: release/linux/debian/pipeline-test.sh
           workingDirectory: $(Build.SourcesCliDirectory)
         env:
           BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
