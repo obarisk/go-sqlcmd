@@ -21,6 +21,7 @@ set -exv
 
 : "${REPO_ROOT_DIR:=`cd $(dirname $0); cd ../../../; pwd`}"
 
+REPO_ROOT_DIR=${BUILD_OUTPUT}
 DIST_DIR=${BUILD_STAGINGDIRECTORY:=${REPO_ROOT_DIR}/output/rpm}
 DISTRO_BASE_IMAGE=( centos:centos7 fedora:29 )
 
