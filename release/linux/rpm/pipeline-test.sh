@@ -31,8 +31,6 @@ set -exv
 
 find .. -iname "*.*" -type f
 
-find /mnt/artifacts -iname "*.*" -type f
-
 CLI_VERSION=${CLI_VERSION:=0.0.1}
 CLI_VERSION_REVISION=${CLI_VERSION_REVISION:=1}
 
