@@ -25,7 +25,7 @@ stages:
           debian:
             imageName: 'ubuntu-latest'
             os: linux
-            type: debian  
+            type: deb  
           docker:
             imageName: 'ubuntu-latest'
             os: linux
