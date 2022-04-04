@@ -23,6 +23,8 @@ IMAGE_NAME=microsoft/sqlcmd${BUILD_BUILDNUMBER:=''}
 
 cp ${BUILD_OUTPUT}/SqlcmdLinuxAmd64/sqlcmd ${REPO_ROOT_DIR}/sqlcmd
 
+chmod u+x ${REPO_ROOT_DIR}/sqlcmd
+
 PACKAGE_VERSION=${PACKAGE_VERSION:=0.0.1}
 
 echo "=========================================================="
