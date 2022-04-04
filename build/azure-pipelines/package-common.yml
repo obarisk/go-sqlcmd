@@ -13,6 +13,7 @@ steps:
   inputs:
     buildType: 'current'
     targetPath: '$(Pipeline.Workspace)'
+    artifactName: SqlcmdLinuxAmd64
 - task: CmdLine@2
   displayName: 'Build RPM distribution'
   inputs:
