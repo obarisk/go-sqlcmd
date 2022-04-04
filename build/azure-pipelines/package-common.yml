@@ -13,7 +13,7 @@ steps:
   inputs:
     source: 'specific'
     project: 'ae14e11c-7eb2-46af-b588-471e6116d635'
-    pipeline: 554
+    pipeline: 500
     runVersion: 'latest'
     targetPath: '$(Pipeline.Workspace)'
 - task: CmdLine@2
