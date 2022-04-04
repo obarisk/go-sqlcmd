@@ -32,7 +32,7 @@ stages:
       pool:
         vmImage: $(imageName)
       steps:
-        - template: package-build.yml
+        - template: package-create.yml
           parameters:
             OS: $(os)
             Arch: $(arch)
