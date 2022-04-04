@@ -19,6 +19,8 @@ steps:
     script: release/${{ parameters.OS }}/${{ parameters.Type }}/pipeline.sh
     workingDirectory: $(Build.SourcesCliDirectory)
   env:
+    DISTRO: buster
+    DISTRO_BASE_IMAGE: debian
     BUILD_OUTPUT: $(Pipeline.Workspace)
     BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
 - task: EsrpCodeSigning@1
