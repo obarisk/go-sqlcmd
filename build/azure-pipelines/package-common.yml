@@ -11,7 +11,10 @@ parameters:
 steps:
 - task: DownloadPipelineArtifact@2
   inputs:
-    buildType: 'current'
+    source: 'specific'
+    project: 'CrossPlatBuildScripts'
+    pipeline: 554
+    buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
 - task: CmdLine@2
   displayName: 'Build RPM distribution'
