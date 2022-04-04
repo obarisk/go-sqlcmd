@@ -64,4 +64,4 @@ docker run --rm \
            -e CLI_VERSION=${CLI_VERSION} \
            -e CLI_VERSION_REVISION=${CLI_VERSION_REVISION:=1}~${DISTRO} \
            "${DISTRO_BASE_IMAGE}" \
-           /mnt/repo/release/linux/debian/build-pkg.sh
+           /mnt/repo/release/linux/deb/build-pkg.sh
