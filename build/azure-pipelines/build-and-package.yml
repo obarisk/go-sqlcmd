@@ -1,0 +1,11 @@
+# this is being defined in app-ci pipeline
+resources:
+  pipelines:
+  - pipeline: 'go-sqlcmd Product Build'   # Internal name of the source pipeline, used elsewhere within app-ci YAML 
+                            # e.g. to reference published artifacts
+    source: build-ci # Azure Pipelines name of the source pipeline referenced
+    trigger: true # Run app-ci pipeline when any run of security-lib-ci completes
+  - pipeline: 'microsoft.go-sqlcmd (1)'  # Internal name of the source pipeline, used elsewhere within app-ci YAML 
+                            # e.g. to reference published artifacts
+    source: package-ci # Azure Pipelines name of the source pipeline referenced
+    trigger: true # Run app-ci pipeline when any run of security-lib-ci completes
