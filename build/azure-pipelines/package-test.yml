@@ -1,0 +1,26 @@
+parameters:
+- name: OS
+  type: string
+  default:
+- name: Arch
+  type: string
+  default: 
+- name: ArtifactName
+  type: string
+
+steps:
+- task: DownloadPipelineArtifact@2
+  inputs:
+    source: 'specific'
+    project: 'ae14e11c-7eb2-46af-b588-471e6116d635'
+    pipeline: 554
+    runVersion: 'latest'
+    targetPath: '$(Pipeline.Workspace)'
+- task: CmdLine@2
+  displayName: 'Test Linux distributions via yum|zypper'
+  inputs:
+    script: release/linux/rpm/pipeline-test.sh
+    workingDirectory: $(Build.SourcesCliDirectory)
+  env:
+    BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
+

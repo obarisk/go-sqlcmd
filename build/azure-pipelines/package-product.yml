@@ -13,10 +13,10 @@ variables:
   skip.upload: "true"
 
 stages:
-  - stage: CreateLinuxPackages
-    displayName: Create Linux Packages
+  - stage: CreatePackages
+    displayName: Create Packages
     jobs:
-    - job: CreateLinuxPackages
+    - job: CreatePackages
       strategy:
         matrix:
           rpm:
@@ -32,7 +32,31 @@ stages:
       pool:
         vmImage: $(imageName)
       steps:
-        - template: package-common.yml
+        - template: package-build.yml
+          parameters:
+            OS: $(os)
+            Arch: $(arch)
+            ArtifactName: $(artifact)
+  - stage: TestPackages
+    displayName: Test Packages
+    jobs:
+    - job: TestPackages
+      strategy:
+        matrix:
+          rpm:
+            imageName: 'ubuntu-latest'
+            artifact: LinuxAmd64
+            os:
+            arch:
+          debian:
+            imageName: 'ubuntu-latest'
+            artifact: LinuxAmd64
+            os:
+            arch:       
+      pool:
+        vmImage: $(imageName)
+      steps:
+        - template: package-test.yml
           parameters:
             OS: $(os)
             Arch: $(arch)
