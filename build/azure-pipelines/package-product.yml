@@ -29,7 +29,7 @@ stages:
           docker:
             imageName: 'ubuntu-latest'
             os: linux
-            type: docker  
+            type: docker
       pool:
         vmImage: $(imageName)
       steps:
