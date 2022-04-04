@@ -46,7 +46,7 @@ cp /mnt/workspace/sqlcmd /opt/stage/sqlcmd
 
 # Create create directory for debian build
 mkdir -p ${WORKDIR}/debian
-${WORKDIR}/release/linux/debian/prepare-rules.sh ${WORKDIR}/debian ${WORKDIR}
+${WORKDIR}/release/linux/deb/prepare-rules.sh ${WORKDIR}/debian ${WORKDIR}
 
 cd ${WORKDIR}
 dpkg-buildpackage -us -uc
