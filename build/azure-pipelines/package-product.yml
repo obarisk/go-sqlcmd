@@ -69,10 +69,10 @@ stages:
           targetPath: $(Build.ArtifactStagingDirectory)
           artifactName: SqlcmdLinuxAmd64
 
-  - stage: Create Linux Packages
+  - stage: CreateLinuxPackages
     displayName: Create Linux Packages
     jobs:
-    - job: Create Linux Packages
+    - job: CreateLinuxPackages
       strategy:
         matrix:
           linux:
