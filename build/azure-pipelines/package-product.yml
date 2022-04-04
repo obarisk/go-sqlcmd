@@ -10,25 +10,22 @@ pr: none
 variables:
   VERSION: '0.0.1'
   Build.SourcesCliDirectory: '$(Build.SourcesDirectory)/'
-  skip.upload: "true"
 
 stages:
   - stage: CreatePackages
-    displayName: Create Packages
+    displayName: Create and Test Package Matrix
     jobs:
-    - job: CreatePackages
+    - job: CreateAndTestPackages
       strategy:
         matrix:
           rpm:
             imageName: 'ubuntu-latest'
-            artifact: LinuxAmd64
-            os:
-            arch:
+            os: linux
+            type: rpm
           debian:
             imageName: 'ubuntu-latest'
-            artifact: LinuxAmd64
-            os:
-            arch:       
+            os: linux
+            type: debian       
       pool:
         vmImage: $(imageName)
       steps:
@@ -37,25 +34,6 @@ stages:
             OS: $(os)
             Arch: $(arch)
             ArtifactName: $(artifact)
-  - stage: TestPackages
-    displayName: Test Packages
-    jobs:
-    - job: TestPackages
-      strategy:
-        matrix:
-          rpm:
-            imageName: 'ubuntu-latest'
-            artifact: LinuxAmd64
-            os:
-            arch:
-          debian:
-            imageName: 'ubuntu-latest'
-            artifact: LinuxAmd64
-            os:
-            arch:       
-      pool:
-        vmImage: $(imageName)
-      steps:
         - template: package-test.yml
           parameters:
             OS: $(os)

@@ -2,12 +2,8 @@ parameters:
 - name: OS
   type: string
   default:
-- name: Arch
+- name: Type
   type: string
-  default: 
-- name: ArtifactName
-  type: string
-
 steps:
 - task: DownloadPipelineArtifact@2
   inputs:
@@ -17,9 +13,9 @@ steps:
     runVersion: 'latest'
     targetPath: '$(Pipeline.Workspace)'
 - task: CmdLine@2
-  displayName: 'Build RPM distribution'
+  displayName: 'Build ${{ parameters.OS }}/${{ parameters.Type }} distribution'
   inputs:
-    script: release/linux/rpm/pipeline.sh
+    script: release/${{ parameters.OS }}/${{ parameters.Type }}/pipeline.sh
     workingDirectory: $(Build.SourcesCliDirectory)
   env:
     BUILD_OUTPUT: $(Pipeline.Workspace)
@@ -28,7 +24,7 @@ steps:
   inputs:
     ConnectedServiceName: 'Code Signing'
     FolderPath: $(Build.ArtifactStagingDirectory)
-    Pattern: '*.rpm'
+    Pattern: '*.${{ parameters.Type }}'
     signConfigType: 'inlineSignParams'
     inlineOperation: |
       [
@@ -44,20 +40,8 @@ steps:
     MaxConcurrency: '50'
     MaxRetryAttempts: '20'
 - task: PublishPipelineArtifact@0
-  displayName: 'Publish Artifact: rpm'
+  displayName: 'Publish Artifact: ${{ parameters.Type }}'
   inputs:
     targetPath: $(Build.ArtifactStagingDirectory)
-    artifactName: rpm
-- task: DownloadPipelineArtifact@1
-  displayName: 'Download rpm artifact'
-  inputs:
-    TargetPath: $(Build.ArtifactStagingDirectory)/rpm
-    artifactName: rpm
-- task: CmdLine@2
-  displayName: 'Test Linux distributions via yum|zypper'
-  inputs:
-    script: release/linux/rpm/pipeline-test.sh
-    workingDirectory: $(Build.SourcesCliDirectory)
-  env:
-    BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
+    artifactName: ${{ parameters.Type }}
 

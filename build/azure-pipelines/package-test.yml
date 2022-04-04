@@ -17,9 +17,9 @@ steps:
     runVersion: 'latest'
     targetPath: '$(Pipeline.Workspace)'
 - task: CmdLine@2
-  displayName: 'Test Linux distributions via yum|zypper'
+  displayName: 'Test ${{ parameters.OS }}/${{ parameters.Type }} distribution'
   inputs:
-    script: release/linux/rpm/pipeline-test.sh
+    script: release/${{ parameters.OS }}/${{ parameters.Type }}/pipeline-test.sh
     workingDirectory: $(Build.SourcesCliDirectory)
   env:
     BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
