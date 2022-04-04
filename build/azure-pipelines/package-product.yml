@@ -1,4 +1,4 @@
-# sqlcmd release artifacts
+# sqlcmd package pipeline
 
 trigger: 
   tags:
@@ -13,73 +13,22 @@ variables:
   skip.upload: "true"
 
 stages:
-  - stage: Compile
-    displayName: Compile sqlcmd
-    jobs:
-    - job: Compile_sqlcmd
-      strategy:
-        matrix:
-          linux:
-            imageName: 'ubuntu-latest'
-            artifact: LinuxAmd64
-            os:
-            arch:
-      pool:
-        vmImage: $(imageName)
-      steps:
-        - template: build-common.yml
-          parameters:
-            OS: $(os)
-            Arch: $(arch)
-            ArtifactName: $(artifact)
-
-  - stage: CreatePackages
-    displayName: Create packages to publish
-    jobs:
-    - job: Sign_and_pack
-      pool:
-        vmImage: 'windows-latest'
-      steps:
-      - task: PowerShell@2
-        displayName: Set last tag to variable
-        inputs:
-          targetType: 'inline'
-          script: |
-            $VERSION_TAG = git describe --tags (git rev-list --tags --max-count=1)
-            Write-Host("##vso[task.setvariable variable=VERSION_TAG]$VERSION_TAG")
-            Write-Host($VERSION_TAG)
-
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          buildType: 'current'
-          targetPath: '$(Pipeline.Workspace)'
-  
-      - task: ArchiveFiles@2
-        displayName: Tar Linux binary
-        inputs:
-          rootFolderOrFile: '$(Pipeline.Workspace)\SqlcmdLinuxAmd64'
-          includeRootFolder: false
-          archiveType: 'tar'
-          tarCompression: 'bz2'
-          archiveFile: '$(Build.ArtifactStagingDirectory)/sqlcmd-$(VERSION_TAG)-linux-x64.tar.bz2'
-
-      - task: PublishPipelineArtifact@1
-        displayName: 'Publish release archives'
-        inputs:
-          targetPath: $(Build.ArtifactStagingDirectory)
-          artifactName: SqlcmdLinuxAmd64
-
   - stage: CreateLinuxPackages
     displayName: Create Linux Packages
     jobs:
     - job: CreateLinuxPackages
       strategy:
         matrix:
-          linux:
+          rpm:
             imageName: 'ubuntu-latest'
             artifact: LinuxAmd64
             os:
             arch:
+          debian:
+            imageName: 'ubuntu-latest'
+            artifact: LinuxAmd64
+            os:
+            arch:       
       pool:
         vmImage: $(imageName)
       steps:
