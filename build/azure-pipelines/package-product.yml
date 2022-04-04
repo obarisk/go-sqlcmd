@@ -26,6 +26,10 @@ stages:
             imageName: 'ubuntu-latest'
             os: linux
             type: debian  
+          docker:
+            imageName: 'ubuntu-latest'
+            os: linux
+            type: docker  
       pool:
         vmImage: $(imageName)
       steps:
