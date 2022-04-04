@@ -21,11 +21,7 @@ stages:
           rpm:
             imageName: 'ubuntu-latest'
             os: linux
-            type: rpm
-          debian:
-            imageName: 'ubuntu-latest'
-            os: linux
-            type: debian       
+            type: rpm    
       pool:
         vmImage: $(imageName)
       steps:
