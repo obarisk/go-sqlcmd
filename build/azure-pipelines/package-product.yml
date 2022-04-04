@@ -32,10 +32,8 @@ stages:
         - template: package-create.yml
           parameters:
             OS: $(os)
-            Arch: $(arch)
-            ArtifactName: $(artifact)
+            Type: $(type)
         - template: package-test.yml
           parameters:
             OS: $(os)
-            Arch: $(arch)
-            ArtifactName: $(artifact)
+            Type: $(type)

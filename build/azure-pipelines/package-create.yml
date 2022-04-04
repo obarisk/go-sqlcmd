@@ -4,6 +4,7 @@ parameters:
   default:
 - name: Type
   type: string
+
 steps:
 - task: DownloadPipelineArtifact@2
   inputs:

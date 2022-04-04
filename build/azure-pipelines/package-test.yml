@@ -2,10 +2,7 @@ parameters:
 - name: OS
   type: string
   default:
-- name: Arch
-  type: string
-  default: 
-- name: ArtifactName
+- name: Type
   type: string
 
 steps:
@@ -23,4 +20,3 @@ steps:
     workingDirectory: $(Build.SourcesCliDirectory)
   env:
     BUILD_STAGINGDIRECTORY: $(Build.ArtifactStagingDirectory)
-
