@@ -4,6 +4,8 @@ pr: none
 
 variables:
   Build.SourcesCliDirectory: '$(Build.SourcesDirectory)/'
+  wix_download_url: 'https://azdataartifacts.blob.core.windows.net/util/wix314-binaries-mirror.zip'
+  MSI_OUTPUT_DIR: '$(Build.SourcesCliDirectory)/output/msi'
 
 stages:
   - stage: CreatePackages
@@ -24,6 +26,10 @@ stages:
             imageName: 'ubuntu-latest'
             os: linux
             type: docker
+          windows:
+            imageName: 'vs2017-win2016'
+            os: windows
+            type: msi
       pool:
         vmImage: $(imageName)
       steps:
