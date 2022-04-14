@@ -56,7 +56,7 @@
     </DirectoryRef>
     
     <Feature Id="ProductFeature"
-             Title="SqlCmd Tools’"
+             Title="SqlCmd Tools"
              Level="1"
              AllowAdvertise="no">
       <ComponentRef Id="sqlcmd.exe" />

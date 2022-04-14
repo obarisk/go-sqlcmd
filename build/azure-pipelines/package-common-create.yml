@@ -23,7 +23,7 @@ steps:
       Write-Host("##vso[task.setvariable variable=VERSION_TAG]$VERSION_TAG")
       Write-Host($VERSION_TAG)
 - task: CmdLine@2
-  condition: eq(variables.OS, 'linux')
+  condition: ne(variables.OS, 'windows')
   displayName: 'Build ${{ parameters.OS }}/${{ parameters.Type }} distribution'
   inputs:
     script: release/${{ parameters.OS }}/${{ parameters.Type }}/pipeline.sh
@@ -99,6 +99,7 @@ steps:
 #    script: |
 #      mv "${MSI_OUTPUT_DIR}/sqlcmd.msi" ${MSI_OUTPUT_DIR}/sqlcmd-${CLI_VERSION}.msi
 - task: CopyFiles@2
+  condition: eq(variables.OS, 'windows')
   displayName: 'Copy MSI to: $(Build.ArtifactStagingDirectory)/windows/msi'
   inputs:
     sourceFolder: $(Build.SourcesDirectory)/release/windows/msi/bin/Release
