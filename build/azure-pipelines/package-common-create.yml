@@ -104,7 +104,7 @@ steps:
   inputs:
     sourceFolder: $(Build.SourcesDirectory)/release/windows/msi/bin/Release
     contents: '?(*.msi|*.md)'
-    TargetFolder: $(Build.ArtifactStagingDirectory)/windows/msi
+    TargetFolder: $(Build.ArtifactStagingDirectory)
 - task: EsrpCodeSigning@1
   condition: ne(variables.Type, 'docker')
   inputs:

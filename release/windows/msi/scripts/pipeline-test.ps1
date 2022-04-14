@@ -16,7 +16,7 @@
 
 tree /A /F $env:SYSTEM_ARTIFACTSDIRECTORY
 
-$msiPath = Join-Path $env:SYSTEM_ARTIFACTSDIRECTORY "msi\sqlcmd.msi"
+$msiPath = Join-Path $env:SYSTEM_ARTIFACTSDIRECTORY "sqlcmd.msi"
 
 $msiPath
 
