@@ -82,5 +82,8 @@ sudo rm /etc/apt/trusted.gpg.d/dpgswdist.v1.asc.gpg
 ```bash
 sudo apt autoremove
 ```
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> stuartpa/package-debian

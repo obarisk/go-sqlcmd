@@ -1,5 +1,6 @@
 # sqlcmd package pipeline
 
+<<<<<<< HEAD
 trigger: 
   tags:
     include:
@@ -9,13 +10,22 @@ pr: none
 
 variables:
   VERSION: '0.0.1'
+=======
+pr: none
+
+variables:
+>>>>>>> stuartpa/package-debian
   Build.SourcesCliDirectory: '$(Build.SourcesDirectory)/'
 
 stages:
   - stage: CreatePackages
     displayName: Create and Test Package Matrix
     jobs:
+<<<<<<< HEAD
     - job: CreateAndTestPackages
+=======
+    - job: Package
+>>>>>>> stuartpa/package-debian
       strategy:
         matrix:
           rpm:
@@ -25,6 +35,7 @@ stages:
           debian:
             imageName: 'ubuntu-latest'
             os: linux
+<<<<<<< HEAD
             type: deb  
           docker:
             imageName: 'ubuntu-latest'
@@ -38,6 +49,17 @@ stages:
             OS: $(os)
             Type: $(type)
         - template: package-test.yml
+=======
+            type: deb
+      pool:
+        vmImage: $(imageName)
+      steps:
+        - template: package-common-create.yml
+          parameters:
+            OS: $(os)
+            Type: $(type)
+        - template: package-common-test.yml
+>>>>>>> stuartpa/package-debian
           parameters:
             OS: $(os)
             Type: $(type)
