@@ -35,12 +35,9 @@
 
 set -exv
 
-<<<<<<< HEAD
-=======
 DISTRO=${DISTRO:=buster}
 DISTRO_BASE_IMAGE=${DISTRO_BASE_IMAGE:=debian:buster}
 
->>>>>>> stuartpa/package-debian
 : "${DISTRO:?DISTRO environment variable not set.}"
 : "${DISTRO_BASE_IMAGE:?DISTRO_BASE_IMAGE environment variable not set.}"
 : "${REPO_ROOT_DIR:=`cd $(dirname $0); cd ../../../; pwd`}"
@@ -48,13 +45,9 @@ DIST_DIR=${BUILD_STAGINGDIRECTORY:=${REPO_ROOT_DIR}/output/debian}
 
 PIPELINE_WORKSPACE=${REPO_ROOT_DIR}
 
-<<<<<<< HEAD
-cp ${BUILD_OUTPUT}/SqlcmdLinuxAmd64/sqlcmd ${REPO_ROOT_DIR}/sqlcmd
-=======
 if [[ "${BUILD_OUTPUT}" != "" ]]; then
     cp ${BUILD_OUTPUT}/SqlcmdLinuxAmd64/sqlcmd ${REPO_ROOT_DIR}/sqlcmd
 fi
->>>>>>> stuartpa/package-debian
 
 CLI_VERSION=${CLI_VERSION:=0.0.1}
 

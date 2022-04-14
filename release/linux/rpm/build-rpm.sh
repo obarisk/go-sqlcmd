@@ -24,8 +24,4 @@ yum install -y rpm-build
 export LC_ALL=en_US.UTF-8
 export REPO_ROOT_DIR=`cd $(dirname $0); cd ../../../; pwd`
 
-<<<<<<< HEAD
 rpmbuild -v -bb --clean ${REPO_ROOT_DIR}/release/linux/rpm/sqlcmd.spec && cp /root/rpmbuild/RPMS/x86_64/* /mnt/output
-=======
-rpmbuild -v -bb --clean ${REPO_ROOT_DIR}/release/linux/rpm/sqlcmd.spec && cp /root/rpmbuild/RPMS/x86_64/* /mnt/output
->>>>>>> stuartpa/package-debian

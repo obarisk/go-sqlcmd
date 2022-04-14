@@ -29,11 +29,6 @@ set -exv
 
 : "${REPO_ROOT_DIR:=`cd $(dirname $0); cd ../../../; pwd`}"
 
-<<<<<<< HEAD
-find .. -iname "*.*" -type f
-
-=======
->>>>>>> stuartpa/package-debian
 CLI_VERSION=${CLI_VERSION:=0.0.1}
 CLI_VERSION_REVISION=${CLI_VERSION_REVISION:=1}
 
@@ -46,11 +41,7 @@ ZYPPER_DISTRO_BASE_IMAGE=( opensuse/leap:latest )
 ZYPPER_DISTRO_SUFFIX=( el7 )
 
 echo "=========================================================="
-<<<<<<< HEAD
-echo "__CLI_VERSION: ${CLI_VERSION}"
-=======
 echo "CLI_VERSION: ${CLI_VERSION}"
->>>>>>> stuartpa/package-debian
 echo "CLI_VERSION_REVISION: ${CLI_VERSION_REVISION}"
 echo "BUILD_ARTIFACTSTAGINGDIRECTORY: ${BUILD_ARTIFACTSTAGINGDIRECTORY}"
 echo "Distribution: ${YUM_DISTRO_BASE_IMAGE} ${ZYPPER_DISTRO_BASE_IMAGE}"
@@ -103,11 +94,7 @@ for i in ${!ZYPPER_DISTRO_BASE_IMAGE[@]}; do
 
     script="zypper --non-interactive install curl && \
             rpm -v --import https://packages.microsoft.com/keys/microsoft.asc && \
-<<<<<<< HEAD
-            zypper --non-interactive install --allow-unsigned-rpm /mnt/artifacts/${rpmPkg} && \
-=======
             zypper --non-interactive install /mnt/artifacts/${rpmPkg} && \
->>>>>>> stuartpa/package-debian
             sqlcmd --help"
 
     docker pull ${image}
@@ -116,8 +103,4 @@ for i in ${!ZYPPER_DISTRO_BASE_IMAGE[@]}; do
                /bin/bash -c "${script}"
 
     echo ""
-<<<<<<< HEAD
 done
-=======
-done
->>>>>>> stuartpa/package-debian
