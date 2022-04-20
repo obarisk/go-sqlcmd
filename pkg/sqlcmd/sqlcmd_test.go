@@ -41,7 +41,7 @@ func TestConnectionStringFromSqlCmd(t *testing.T) {
 			"sqlserver://.?database=somedatabase&encrypt=false&workstation+id=mystation",
 		},
 		{
-			&ConnectSettings{TrustServerCertificate: true, Password: pwd, ServerName: `someserver/instance`, Database: "somedatabase", UserName: "someuser"},
+			&ConnectSettings{TrustServerCertificate: true, Password: pwd, ServerName: `someserver\instance`, Database: "somedatabase", UserName: "someuser"},
 			fmt.Sprintf("sqlserver://someuser:%s@someserver/instance?database=somedatabase&trustservercertificate=true", pwd),
 		},
 		{
@@ -457,6 +457,9 @@ func setupSqlcmdWithFileOutput(t testing.TB) (*Sqlcmd, *os.File) {
 	assert.NoError(t, err, "os.CreateTemp")
 	s.SetOutput(file)
 	err = s.ConnectDb(nil, true)
+	if err != nil {
+		os.Remove(file.Name())
+	}
 	assert.NoError(t, err, "s.ConnectDB")
 	return s, file
 }
