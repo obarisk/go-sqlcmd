@@ -97,7 +97,7 @@ steps:
   displayName: 'Rename MSI'
   inputs:
    targetType: 'inline'
-    script: |
+   script: |
       mv "${MSI_OUTPUT_DIR}/sqlcmd.msi" ${MSI_OUTPUT_DIR}/sqlcmd_${CLI_VERSION}-${CLI_VERSION_REVISION}.msi
 - task: CopyFiles@2
   condition: eq(variables.OS, 'windows')
