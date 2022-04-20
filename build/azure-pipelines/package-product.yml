@@ -28,13 +28,10 @@ stages:
             imageName: 'ubuntu-latest'
             os: linux
             type: docker
-<<<<<<< HEAD
           windows:
             imageName: 'vs2017-win2016'
             os: windows
             type: msi
-=======
->>>>>>> main
       pool:
         vmImage: $(imageName)
       steps:
