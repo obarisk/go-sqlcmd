@@ -39,65 +39,66 @@ steps:
     solution: '$(Build.SourcesCliDirectory)\release\windows\msi\sqlcmd.wixproj'
     msbuildArchitecture: 'x86'
     msbuildArgs: '/p:Configuration=Release'
-# Temporarily disable code signing to unblock SQLCMD CLI build pipeline
-#  - task: EsrpCodeSigning@1
-#    inputs:
-#      ConnectedServiceName: 'Code Signing'
-#      FolderPath: '$(Build.SourcesDirectory)/output/msi'
-#      Pattern: '*.msi'
-#      signConfigType: 'inlineSignParams'
-#      inlineOperation: |
-#        [
-#          {
-#            "keyCode": "CP-230012",
-#            "operationSetCode": "SigntoolSign",
-#            "parameters": [
-#              {
-#                "parameterName": "OpusName",
-#                "parameterValue": "SQLCMD CLI"
-#              },
-#              {
-#                "parameterName": "OpusInfo",
-#                "parameterValue": "https://github.com/microsoft/go-sqlcmd"
-#              },
-#              {
-#                "parameterName": "PageHash",
-#                "parameterValue": "/NPH"
-#              },
-#              {
-#                "parameterName": "FileDigest",
-#                "parameterValue": "/fd sha256"
-#              },
-#              {
-#                "parameterName": "TimeStamp",
-#                "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
-#              }
-#            ],
-#            "toolName": "signtool.exe",
-#            "toolVersion": "6.2.9304.0"
-#          },
-#          {
-#            "keyCode": "CP-230012",
-#            "operationSetCode": "SigntoolVerify",
-#            "parameters": [
-#              {
-#                "parameterName": "VerifyAll",
-#                "parameterValue": "/all"
-#              }
-#            ],
-#            "toolName": "signtool.exe",
-#            "toolVersion": "6.2.9304.0"
-#          }
-#        ]
-#      SessionTimeout: '600'
-#      MaxConcurrency: '50'
-#      MaxRetryAttempts: '20'
-# - task: Bash@3
-#  displayName: 'Rename MSI'
-#  inputs:
-#   targetType: 'inline'
-#    script: |
-#      mv "${MSI_OUTPUT_DIR}/sqlcmd.msi" ${MSI_OUTPUT_DIR}/sqlcmd-${CLI_VERSION}.msi
+- task: EsrpCodeSigning@1
+  condition: eq(variables.OS, 'windows')
+  inputs:
+    ConnectedServiceName: 'Code Signing'
+    FolderPath: '$(Build.SourcesDirectory)/output/msi'
+    Pattern: '*.msi'
+    signConfigType: 'inlineSignParams'
+    inlineOperation: |
+      [
+        {
+          "keyCode": "CP-230012",
+          "operationSetCode": "SigntoolSign",
+          "parameters": [
+            {
+              "parameterName": "OpusName",
+              "parameterValue": "SQLCMD CLI"
+            },
+            {
+              "parameterName": "OpusInfo",
+              "parameterValue": "https://github.com/microsoft/go-sqlcmd"
+            },
+            {
+              "parameterName": "PageHash",
+              "parameterValue": "/NPH"
+            },
+            {
+              "parameterName": "FileDigest",
+              "parameterValue": "/fd sha256"
+            },
+            {
+              "parameterName": "TimeStamp",
+              "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+            }
+          ],
+          "toolName": "signtool.exe",
+          "toolVersion": "6.2.9304.0"
+        },
+        {
+          "keyCode": "CP-230012",
+          "operationSetCode": "SigntoolVerify",
+          "parameters": [
+            {
+              "parameterName": "VerifyAll",
+              "parameterValue": "/all"
+            }
+          ],
+          "toolName": "signtool.exe",
+          "toolVersion": "6.2.9304.0"
+        }
+      ]
+    SessionTimeout: '600'
+    MaxConcurrency: '50'
+    MaxRetryAttempts: '20'
+- task: Bash@3
+  condition: eq(variables.OS, 'windows')
+  displayName: 'Rename MSI'
+  inputs:
+   targetType: 'inline'
+    script: |
+      mv "${MSI_OUTPUT_DIR}/sqlcmd.msi" ${MSI_OUTPUT_DIR}/sqlcmd_${CLI_VERSION}-${CLI_VERSION_REVISION}.msi
 - task: CopyFiles@2
   condition: eq(variables.OS, 'windows')
   displayName: 'Copy MSI to: $(Build.ArtifactStagingDirectory)/windows/msi'
@@ -106,7 +107,7 @@ steps:
     contents: '?(*.msi|*.md)'
     TargetFolder: $(Build.ArtifactStagingDirectory)
 - task: EsrpCodeSigning@1
-  condition: ne(variables.Type, 'docker')
+  condition: and(eq(variables.OS, 'linux'), ne(variables.Type, 'docker'))
   inputs:
     ConnectedServiceName: 'Code Signing'
     FolderPath: $(Build.ArtifactStagingDirectory)
