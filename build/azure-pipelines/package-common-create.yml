@@ -43,7 +43,7 @@ steps:
   condition: eq(variables.OS, 'windows')
   inputs:
     ConnectedServiceName: 'Code Signing'
-    FolderPath: '$(Build.SourcesDirectory)/output/msi'
+    FolderPath: '$(Build.SourcesDirectory)/output'
     Pattern: '*.msi'
     signConfigType: 'inlineSignParams'
     inlineOperation: |
@@ -101,7 +101,7 @@ steps:
       mv "${MSI_OUTPUT_DIR}/sqlcmd.msi" ${MSI_OUTPUT_DIR}/sqlcmd_${CLI_VERSION}-${CLI_VERSION_REVISION}.msi
 - task: CopyFiles@2
   condition: eq(variables.OS, 'windows')
-  displayName: 'Copy MSI to: $(Build.ArtifactStagingDirectory)/windows/msi'
+  displayName: 'Copy MSI to: $(Build.ArtifactStagingDirectory)'
   inputs:
     sourceFolder: $(Build.SourcesDirectory)/release/windows/msi/bin/Release
     contents: '?(*.msi|*.md)'
