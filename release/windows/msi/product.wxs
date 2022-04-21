@@ -3,7 +3,7 @@
 
   <?define ProductVersion="0.0.1.0" ?>
 
-  <?define ProductName = "SqlCmd Tools" ?>
+  <?define ProductName = "Sqlcmd Tools" ?>
   <?define ProductDescription = "Command-line tools for Microsoft SQL Server." ?>
   <?define ProductAuthor = "Microsoft Corporation" ?>
   <?define ProductResources = ".\resources\" ?>
@@ -51,7 +51,7 @@
 
     <DirectoryRef Id="SQLCMDTOOLSFOLDER">
       <Component Id="sqlcmd.exe" Guid="BD614D17-FD54-4DF3-AA53-C0AE8780480C">
-        <File Id="sqlcmd.exe" Source="$(env.PIPELINE_WORKSPACE)\SqlcmdWindowsAmd64\Sqlcmd.exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="sqlcmd.exe" Source="$(env.PIPELINE_WORKSPACE)\SqlcmdWindowsAmd64\sqlcmd.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
     </DirectoryRef>
     

@@ -7,8 +7,7 @@ set "PATH=%PATH%;%ProgramFiles%\Git\bin;%ProgramFiles%\Git\usr\bin;C:\Program Fi
 echo %PATH%
 
 if "%CLI_VERSION%"=="" (
-    echo Please set the CLI_VERSION environment variable, e.g. 15.0.1800
-    goto ERROR
+    set CLI_VERSION=0.0.1
 )
 
 if "%WIX_DOWNLOAD_URL%"=="" (

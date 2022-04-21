@@ -31,3 +31,6 @@ steps:
     targetType: 'filePath'
     filePath: '$(Build.SourcesDirectory)\release\windows\msi\scripts\pipeline-test.ps1'
     failOnStderr: true
+  env:
+    CLI_VERSION: $(VERSION_TAG)
+    CLI_VERSION_REVISION: 1

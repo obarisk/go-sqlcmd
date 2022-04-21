@@ -8,8 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>sqlcmd</OutputName>
     <OutputType>Package</OutputType>
-    <!-- For every new version release change the below two values or provide them as a parameter to msbuild -->
-    <SQLCMD_PACKAGE_VERSION Condition=" '$(SQLCMD_PACKAGE_VERSION)' == '' ">14.0.6.0</SQLCMD_PACKAGE_VERSION>
+    <SQLCMD_PACKAGE_VERSION Condition=" '$(SQLCMD_PACKAGE_VERSION)' == '' ">0.0.1</SQLCMD_PACKAGE_VERSION>
     <SQLCMD_UPGRADE_CODE Condition=" '$(SQLCMD_UPGRADE_CODE)' == '' ">B8C0DBFD-DCED-44D4-9660-206CDE2D91BC</SQLCMD_UPGRADE_CODE>
     <DefineSolutionProperties>false</DefineSolutionProperties>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -41,12 +40,4 @@
     </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
-  <!--
-	To modify your build process, add your task inside one of the targets below and uncomment it.
-	Other similar extension points exist, see Wix.targets.
-	<Target Name="BeforeBuild">
-	</Target>
-	<Target Name="AfterBuild">
-	</Target>
-	-->
 </Project>

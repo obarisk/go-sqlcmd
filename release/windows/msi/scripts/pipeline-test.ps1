@@ -14,9 +14,12 @@
 #
 # $ pipeline-test.ps1
 
+$env:CLI_VERSION ??= '0.0.1'
+$env:CLI_VERSION_REVISION ??= '1'
+
 tree /A /F $env:SYSTEM_ARTIFACTSDIRECTORY
 
-$msiPath = Join-Path $env:SYSTEM_ARTIFACTSDIRECTORY "sqlcmd.msi"
+$msiPath = Join-Path $env:SYSTEM_ARTIFACTSDIRECTORY ("sqlcmd_" + $env:CLI_VERSION + "-" + $env:CLI_VERSION_REVISION + ".msi")
 
 $msiPath
 
