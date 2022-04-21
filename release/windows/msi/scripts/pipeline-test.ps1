@@ -14,8 +14,8 @@
 #
 # $ pipeline-test.ps1
 
-$env:CLI_VERSION ??= '0.0.1'
-$env:CLI_VERSION_REVISION ??= '1'
+if (-not (Test-Path env:CLI_VERSION)) { $env:CLI_VERSION = '0.0.1' }
+if (-not (Test-Path env:CLI_VERSION_REVISION)) { $env:CLI_VERSION_REVISION = '1' }
 
 tree /A /F $env:SYSTEM_ARTIFACTSDIRECTORY
 

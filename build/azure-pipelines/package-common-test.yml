@@ -33,4 +33,3 @@ steps:
     failOnStderr: true
   env:
     CLI_VERSION: $(VERSION_TAG)
-    CLI_VERSION_REVISION: 1
